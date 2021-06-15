@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import Header from "./components/Header";
-import List from "./components/List";
-import Footer from "./components/Footer";
-import './App.css';
+import {connect} from 'react-redux'
+import Header from './components/header/header';
+import TodoList from './components/todo-list/todo-list';
+import {generateTodos} from './redux/action'
 
-export default class App extends Component {
+class App extends Component {
 
-  
+
+  componentDidMount () {
+    fetch(`https://jsonplaceholder.typicode.com/todos`)
+      .then(response => response.json())
+      .then(data => this.props.generateTodos(data))
+  }
+
   render() {
     return (
-      <div className="todo-container">
-        <div className="todo-wrap">
-          <Header />
-          <List  />
-          <Footer />
-        </div>
-      </div>
-    )
+      <>
+        <Header />
+        <TodoList />
+      </>
+    );
   }
 }
+
+export default connect(null, {generateTodos})(App)
+

@@ -5,7 +5,7 @@ export default class Header extends Component {
     render() {
         return (
             <div className='header'>
-                Welcome to Antra
+                Todo List App
             </div>
         )
     }
