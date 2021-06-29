@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux'
-import Header from './components/header/header';
-import TodoList from './components/todo-list/todo-list';
-import {generateTodos} from './redux/action'
+import Card from './components/card'
 
-class App extends Component {
+export default class App extends Component {
 
-
-  componentDidMount () {
-    fetch(`https://jsonplaceholder.typicode.com/todos`)
-      .then(response => response.json())
-      .then(data => this.props.generateTodos(data))
+  state = {
+    colors: ['primary', 'success', 'danger', 'warning'],
+    selectColor: 'dark'
   }
+
+  handleOnclick = (color) => {
+    this.setState({selectColor: color})
+  }
+
 
   render() {
+    const { colors, selectColor } = this.state
     return (
-      <>
-        <Header />
-        <TodoList />
-      </>
-    );
+      <div className='container'>
+        <h1 className={`text-${selectColor}`} style={{textAlign: "center"}}>Title: color changed with buttons</h1>
+        <br />
+        <div className="row">
+          {colors.map(color => (
+            <Card key={color} color={color} selectColor={selectColor} handleOnclick={this.handleOnclick}/>
+          ))}
+        </div>
+      </div>
+    )
   }
 }
-
-export default connect(null, {generateTodos})(App)
 
